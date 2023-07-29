@@ -1,0 +1,26 @@
+.banner {
+  height: max-content;
+  border: 1px solid red;
+  position: relative;
+
+  .img {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+    gap: 0 20px;
+    img {
+      width: 100%;
+      border-radius: 10px;
+      &:last-child {
+        display: none;
+      }
+    }
+  }
+  .btn_next {
+    position: absolute;
+    color: #fff;
+    width: 55px;
+    height: 55px;
+    background-color: blanchedalmond;
+  }
+}

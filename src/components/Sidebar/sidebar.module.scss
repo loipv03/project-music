@@ -1,0 +1,91 @@
+:root {
+  --padding-sibader: 25px;
+}
+
+.aside {
+  width: 240px;
+  background-color: #221a2d;
+  margin-bottom: 90px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  .logo {
+    width: 100%;
+    height: 70px;
+    display: grid;
+    align-items: center;
+    padding: 0 var(--padding-sibader);
+
+    img {
+      width: 60%;
+    }
+  }
+
+  .nav {
+    .divide {
+      width: 80%;
+      height: 1px;
+      background-color: #515151a0;
+      margin: 17px auto;
+    }
+    .nav_item {
+      width: 100%;
+      height: 190px;
+    }
+  }
+}
+
+li {
+  width: 100%;
+  a {
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--padding-sibader);
+    color: #dadada;
+    font-size: 1.4rem;
+    text-transform: capitalize;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    column-gap: 15px;
+    align-items: center;
+    font-weight: 500;
+    border-left: 3px solid #fff;
+    &:hover {
+      color: #fff;
+    }
+
+    .text {
+      div {
+        display: inline-block;
+        width: 36px;
+        height: max-content;
+        text-align: center;
+        padding: 3px;
+        margin-left: 2px;
+        background-color: #f00;
+        text-transform: uppercase;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+    }
+  }
+
+  .active {
+    color: #fff;
+    background-color: #393142;
+    border-left: 3px solid #221a2d;
+  }
+}
+
+.icon {
+  width: max-content;
+  svg {
+    margin-top: 2px;
+    fill: #dadada;
+    width: 24px;
+    height: 24px;
+  }
+}

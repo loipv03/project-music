@@ -1,0 +1,135 @@
+.control {
+  height: 90px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  color: #ffffff;
+  background-color: #130c1c;
+  box-shadow: 0px -0.2px 0px #ffffff4e;
+
+  & > * {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.control_left {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  padding-left: 20px;
+
+  .info_song {
+    .name_song {
+      font-size: 1.4rem;
+      line-height: 20px;
+    }
+
+    .alias {
+      font-size: 1.2rem;
+      color: #858189;
+    }
+  }
+
+  img {
+    width: 64px;
+    height: 64px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+}
+
+.control_center {
+  height: 73px;
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  place-items: center;
+  .action {
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    place-items: center;
+
+    & > * {
+      cursor: pointer;
+    }
+
+    #play_song {
+      width: 40px;
+      height: 40px;
+    }
+    #pause_song {
+      width: 40px;
+      height: 40px;
+      display: none;
+    }
+
+    .next_song {
+      width: 40px;
+      height: 40px;
+    }
+    .skip_song {
+      width: 40px;
+      height: 40px;
+    }
+    .repeat_song {
+      width: 23px;
+      height: 23px;
+      fill: #858189;
+    }
+
+    .random_song {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .range {
+    width: 100%;
+    display: grid;
+    place-items: center;
+    input[type="range"] {
+      width: 80%;
+      height: 3px;
+      appearance: none;
+      overflow: hidden;
+      border-radius: 10px;
+
+      &::-webkit-slider-runnable-track {
+        cursor: pointer;
+        width: 100%;
+        height: 3px;
+        background: #595460;
+        appearance: none;
+      }
+
+      &::-webkit-slider-thumb {
+        box-shadow: -366px 0 0 366px rgb(255, 255, 255);
+        height: 3px;
+        width: 3px;
+        background: rgb(255, 255, 255);
+        cursor: pointer;
+        appearance: none;
+      }
+
+      &:hover::-webkit-slider-runnable-track {
+        cursor: pointer;
+        width: 100%;
+        height: 4px;
+        background: #595460;
+        appearance: none;
+      }
+    }
+  }
+}
+
+// .song {
+//   width: 20px;
+//   height: 20px;
+//   background-color: #ffffff;
+//   border-radius: 50%;
+//   color: black;
+//   cursor: pointer;
+//   display: grid;
+//   place-items: center;
+// }
