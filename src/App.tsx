@@ -37,9 +37,6 @@ function App() {
           <PlayerControl />
         </div>
       </div>
-      <Routes>
-        <Route path="playlist" element={<PlayList />} />
-      </Routes>
     </>
   );
 }
