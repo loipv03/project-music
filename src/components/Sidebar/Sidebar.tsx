@@ -16,14 +16,17 @@ const Sidebar = () => {
   return (
     <aside className={cx("aside")}>
       <div className={cx("logo")}>
-        <NavLink to={""}>
-          <img src="img/logo.png" alt="" />
+        <NavLink end to={""}>
+          <img src="/img/logo.png" alt="" />
         </NavLink>
       </div>
       <nav className={cx("nav")}>
         <ul className={cx("nav_item")}>
           <li>
-            <NavLink to={""} className={(nav) => cx({ active: nav.isActive })}>
+            <NavLink
+              to={""}
+              end
+              className={(nav) => cx({ active: nav.isActive })}>
               <div className={cx("icon")}>
                 <Circle />
               </div>

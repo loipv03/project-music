@@ -1,24 +1,19 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getSong, infoSong } from "../../api/music";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { getInfoSong, getSong } from "../../api/music";
 
 const initialState = {
-  curSongId: "",
-  audio: {},
-  detailSong: {},
+  curSongId: "ZW8I8008",
+  infoSong: {},
+  audio: "",
+  isPlaying: false,
 };
 
 export const getDetailSong = createAsyncThunk(
   "audio/getDetailSong",
   async (encodeId: string) => {
     try {
-      const { data: songInfo } = await infoSong(encodeId);
-      const { data: audio } = await getSong(encodeId);
-      if (audio?.err == 0) {
-        return {
-          audio,
-          songInfo,
-        };
-      }
+      const { data: infoSong } = await getInfoSong(encodeId);
+      return infoSong.err === 0 ? infoSong : null;
     } catch (error) {
       throw error;
     }
@@ -28,16 +23,23 @@ export const getDetailSong = createAsyncThunk(
 const controlSlice = createSlice({
   name: "audio",
   initialState,
-  reducers: {},
+  reducers: {
+    setIsPlaying: (state, action: PayloadAction<boolean>) => {
+      state.isPlaying = action.payload;
+    },
+    setAudio: (state, action) => {
+      state.audio = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getDetailSong.fulfilled, (state, action: any) => {
       if (action.payload) {
-        state.curSongId = action.payload.songInfo.data.encodeId;
-        state.audio = action.payload.audio;
-        state.detailSong = action.payload.songInfo;
+        state.curSongId = action.payload?.data.encodeId;
+        state.infoSong = action.payload?.data;
       }
     });
   },
 });
 
 export default controlSlice.reducer;
+export const { setIsPlaying, setAudio } = controlSlice.actions;

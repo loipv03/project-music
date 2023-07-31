@@ -1,18 +1,19 @@
 import classNames from "classnames/bind";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import styles from "./newRelease.module.scss";
 import { AppDispatch } from "../../redux/store";
-import { getDetailSong } from "../../redux/slice/playerControl";
+import { getDetailSong, setIsPlaying } from "../../redux/slice/playerControl";
 
 const cx = classNames.bind(styles);
 
 const NewRelease = () => {
   const [filterSong, setFilterSong] = useState<any>();
   const state = useSelector(({ audio }: any) => audio.audio.data?.items);
-  const dispatch: AppDispatch = useDispatch();
+  const AppDispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const newRelease = state?.find(
     (item: any) => item.sectionType === "new-release"
@@ -23,32 +24,37 @@ const NewRelease = () => {
   const QuocTeSong = newRelease?.items?.others;
 
   const handleClick = (encodeId: string) => {
-    dispatch(getDetailSong(encodeId));
+    AppDispatch(getDetailSong(encodeId));
   };
 
   useEffect(() => {
     setFilterSong(allSong);
   }, [state]);
 
+  const params = useParams();
+  // console.log(params);
+
   return (
     <div className={cx("new_release")}>
       <div className={cx("title")}>{newRelease?.title}</div>
       <div className={cx("filter")}>
-        <NavLink to={""} className={(nav) => cx({ active: nav.isActive })}>
+        <NavLink to="/" end className={(nav) => cx({ active: nav.isActive })}>
           <div
             className={cx("filter_item")}
             onClick={() => setFilterSong(allSong)}>
             Tất cả
           </div>
         </NavLink>
-        <NavLink to={"7"} className={(nav) => cx({ active: nav.isActive })}>
+        <NavLink
+          to="/vietnam"
+          className={(nav) => cx({ active: nav.isActive })}>
           <div
             className={cx("filter_item")}
             onClick={() => setFilterSong(vietNamSong)}>
             Việt Nam
           </div>
         </NavLink>
-        <NavLink to={"8"} className={(nav) => cx({ active: nav.isActive })}>
+        <NavLink to="/quocte" className={(nav) => cx({ active: nav.isActive })}>
           <div
             className={cx("filter_item")}
             onClick={() => setFilterSong(QuocTeSong)}>
@@ -62,7 +68,8 @@ const NewRelease = () => {
             return (
               <NavLink
                 key={item.encodeId}
-                to={`${index + 10}`}
+                to={item?.link.split(".")[0]}
+                onClick={() => dispatch(setIsPlaying(true))}
                 className={(nav) => cx({ active: nav.isActive })}>
                 <div
                   className={cx("item_song")}

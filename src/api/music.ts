@@ -3,7 +3,7 @@ import instance from "./instances";
 export const getHome = () => {
   return instance.get("home");
 };
-export const infoSong = (id: string) => {
+export const getInfoSong = (id: string) => {
   return instance.get(`/infosong?id=${id}`);
 };
 export const getSong = (id: string) => {
