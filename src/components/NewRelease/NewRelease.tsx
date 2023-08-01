@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import styles from "./newRelease.module.scss";
@@ -30,9 +30,6 @@ const NewRelease = () => {
   useEffect(() => {
     setFilterSong(allSong);
   }, [state]);
-
-  const params = useParams();
-  // console.log(params);
 
   return (
     <div className={cx("new_release")}>

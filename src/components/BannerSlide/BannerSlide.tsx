@@ -6,8 +6,7 @@ import classNames from "classnames/bind";
 import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./banner.module.scss";
-import { getDetaiPlayList } from "../../redux/slice/playlist";
-import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -26,41 +25,39 @@ const BannerSlide = () => {
       AppDispatch(getDetailSong(item.encodeId));
       dispatch(setIsPlaying(true));
     }
-    //  else if (item.type === 4) {
-    //   dispatch(getDetaiPlayList(item.encodeId));
-    // }
   };
-  const slideImg = document.querySelector(`.${cx("slide_img")}`);
-  document
-    .querySelector(`.${cx("btn_next")}`)
-    ?.addEventListener("click", () => {
-      let img = document.querySelectorAll(`.${cx("item")}`);
-      slideImg?.appendChild(img[0]);
-    });
-  document.querySelector(`.${cx("btn_pre")}`)?.addEventListener("click", () => {
-    let img = document.querySelectorAll(`.${cx("item")}`);
+
+  useEffect(() => {}, []);
+  let slideImg = document.querySelector("#slide_imgs");
+  document.getElementById("btn_nexts")?.addEventListener("click", () => {
+    let img = document.querySelectorAll(".items");
+    slideImg?.appendChild(img[0]);
+  });
+  document.getElementById("btn_pres")?.addEventListener("click", () => {
+    let img = document.querySelectorAll(".items");
     slideImg?.append(img[0]);
   });
-
   return (
     <div className={cx("banner")}>
-      <div className={cx("slide_img")}>
-        {bannerState?.items?.map((item: any) => {
+      <div className={cx("slide_img")} id="slide_imgs">
+        {bannerState?.items?.map((item: any, index: any) => {
           return (
-            <img
-              className={cx("item")}
-              key={item.encodeId}
-              src={item.banner}
-              alt="#"
-              onClick={() => handleClick(item)}
-            />
+            <div className={`${cx("item")} items`} key={item.encodeId}>
+              <img
+                className={cx("item")}
+                key={item.encodeId}
+                src={item.banner}
+                alt="#"
+                onClick={() => handleClick(item)}
+              />
+            </div>
           );
         })}
       </div>
-      <div className={cx("btn_next")}>
+      <div className={cx("btn_next")} id="btn_nexts">
         <MdNavigateNext />
       </div>
-      <div className={cx("btn_pre")}>
+      <div className={cx("btn_pre")} id="btn_pres">
         <MdNavigateBefore />
       </div>
     </div>
