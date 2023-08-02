@@ -20,16 +20,13 @@ body {
   margin: 0 60px 0 300px;
   padding: 100px 0 100px 0;
   max-width: 100%;
-
-  .player_control {
-    
-  }
 }
 
 button,
 input {
   border: none;
   outline: none;
+  user-select: none;
 }
 
 li {
@@ -37,4 +34,8 @@ li {
 }
 a {
   text-decoration: none;
+}
+
+img {
+  user-select: none;
 }

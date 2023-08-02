@@ -1,22 +1,46 @@
 .banner {
-  height: max-content;
+  width: 100%;
+  max-height: 200px;
+  height: 200px;
   position: relative;
 
   .slide_img {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0 20px;
-    transition: all 2s;
+    height: 100%;
+    position: relative;
+    display: flex;
 
-    img {
-      width: 100%;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 2s;
-      // &:last-child {
-      //   display: none;
-      // }
+    .item {
+      transition: transform 0.5s ease-out;
+      position: absolute;
+
+      &:first-child {
+        transform: translateX(0%);
+        animation: toRightLeft 0.5s ease-out;
+        z-index: 2;
+      }
+
+      &:nth-child(2) {
+        transform: translateX(calc(100% + 20px));
+        z-index: 3;
+      }
+      &:nth-child(3) {
+        transform: translateX(calc(200% + 40px));
+        animation: toLeftRight 0.5s ease-out;
+      }
+
+      &:nth-child(n + 4) {
+        transform: translateX(calc(200% + 40px));
+        z-index: 3;
+      }
+
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+      }
     }
   }
 
@@ -29,6 +53,7 @@
 .btn_next,
 .btn_pre {
   position: absolute;
+  z-index: 3;
   width: 55px;
   height: 55px;
   background-color: rgba(255, 255, 255, 0.266);
@@ -54,4 +79,23 @@
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
+}
+
+@keyframes toLeftRight {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(calc(200% + 40px));
+  }
+}
+@keyframes toRightLeft {
+  from {
+    transform: translateX(calc(100% + 20px));
+  }
+
+  to {
+    transform: translateX(0%);
+  }
 }

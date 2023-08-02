@@ -6,7 +6,7 @@ import classNames from "classnames/bind";
 import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./banner.module.scss";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -15,6 +15,9 @@ const BannerSlide = () => {
   const AppDispatch: AppDispatch = useDispatch();
   const state = useSelector(({ audio }: any) => audio.audio.data);
   const stateControl = useSelector(({ control }: any) => control);
+  const slider = useRef<HTMLDivElement>(null);
+  const btnNext = useRef<HTMLDivElement>(null);
+  const btnPre = useRef<HTMLDivElement>(null);
 
   const bannerState = state?.items.find(
     (item: any) => item.sectionType === "banner"
@@ -27,37 +30,46 @@ const BannerSlide = () => {
     }
   };
 
-  useEffect(() => {}, []);
-  let slideImg = document.querySelector("#slide_imgs");
-  document.getElementById("btn_nexts")?.addEventListener("click", () => {
-    let img = document.querySelectorAll(".items");
-    slideImg?.appendChild(img[0]);
-  });
-  document.getElementById("btn_pres")?.addEventListener("click", () => {
-    let img = document.querySelectorAll(".items");
-    slideImg?.append(img[0]);
-  });
+  useEffect(() => {
+    btnNext.current?.addEventListener("click", () => {
+      const firstChild = slider.current?.firstChild;
+      if (firstChild) {
+        slider.current?.appendChild(firstChild);
+      }
+    });
+    btnPre.current?.addEventListener("click", () => {
+      const lastChild = slider.current?.lastChild;
+      if (lastChild) {
+        slider.current?.insertBefore(lastChild, slider.current.firstChild);
+      }
+    });
+    return () => {
+      btnNext.current?.addEventListener("click", () => {});
+      btnPre.current?.addEventListener("click", () => {});
+    };
+  }, []);
+
   return (
     <div className={cx("banner")}>
-      <div className={cx("slide_img")} id="slide_imgs">
-        {bannerState?.items?.map((item: any, index: any) => {
-          return (
-            <div className={`${cx("item")} items`} key={item.encodeId}>
-              <img
-                className={cx("item")}
-                key={item.encodeId}
-                src={item.banner}
-                alt="#"
-                onClick={() => handleClick(item)}
-              />
-            </div>
-          );
+      <div className={cx("slide_img")} ref={slider}>
+        {bannerState?.items?.map((item: any, index: number) => {
+          if (index <= 2) {
+            return (
+              <div className={cx("item")} key={item.encodeId}>
+                <img
+                  src={item.banner}
+                  alt="#"
+                  onClick={() => handleClick(item)}
+                />
+              </div>
+            );
+          }
         })}
       </div>
-      <div className={cx("btn_next")} id="btn_nexts">
+      <div className={cx("btn_next")} ref={btnNext}>
         <MdNavigateNext />
       </div>
-      <div className={cx("btn_pre")} id="btn_pres">
+      <div className={cx("btn_pre")} ref={btnPre}>
         <MdNavigateBefore />
       </div>
     </div>
