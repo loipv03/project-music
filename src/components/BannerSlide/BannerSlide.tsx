@@ -7,10 +7,12 @@ import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./banner.module.scss";
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 const BannerSlide = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const AppDispatch: AppDispatch = useDispatch();
   const state = useSelector(({ audio }: any) => audio.audio.data);
@@ -27,6 +29,9 @@ const BannerSlide = () => {
     if (item.type === 1 && item.encodeId !== stateControl.curSongId) {
       AppDispatch(getDetailSong(item.encodeId));
       dispatch(setIsPlaying(true));
+    } else if (item.type === 4) {
+      const link = item?.link.split(".")[0];
+      navigate(link);
     }
   };
 

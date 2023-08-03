@@ -24,6 +24,7 @@ const PlayerControl = () => {
   const AppDispatch = useDispatch() as AppDispatch;
   const state = useSelector(({ control }: any) => control);
   const [srcAudio, setSrcAudio] = useState<string>("");
+  const timeSlider = useRef<HTMLInputElement>(null);
 
   const audio: React.MutableRefObject<HTMLAudioElement> = useRef(new Audio());
 
@@ -34,7 +35,6 @@ const PlayerControl = () => {
       } = await getSong(state.curSongId);
       dispatch(setAudio(data["128"]));
       setSrcAudio(data["128"]);
-
       AppDispatch(getDetailSong(state.curSongId));
     };
     playMusic();
@@ -44,22 +44,22 @@ const PlayerControl = () => {
     audio.current.src = srcAudio;
   }, [srcAudio]);
 
-  let timeSlider = document.getElementById(
-    cx("timeSlider")
-  ) as HTMLInputElement;
+  useEffect(() => {
+    timeSlider.current?.addEventListener("input", function () {
+      audio.current.currentTime = Number(this.value);
+    });
 
-  timeSlider?.addEventListener("input", function () {
-    audio.current.currentTime = Number(this.value);
-  });
-
-  audio.current.addEventListener("timeupdate", function () {
-    if (timeSlider) {
-      timeSlider.value = String(audio.current.currentTime);
-      if (timeSlider.value == timeSlider.max) {
-        dispatch(setIsPlaying(false));
+    audio.current.addEventListener("timeupdate", function () {
+      if (timeSlider) {
+        timeSlider.current!.value = String(audio.current.currentTime);
       }
-    }
-  });
+    });
+
+    audio.current.addEventListener("ended", function () {
+      timeSlider.current!.value = "0";
+      dispatch(setIsPlaying(false));
+    });
+  }, [timeSlider]);
 
   const handleClickIsplaying = (pre: boolean) => {
     dispatch(setIsPlaying(!pre));
@@ -71,6 +71,8 @@ const PlayerControl = () => {
     } else {
       audio.current.pause();
     }
+
+    return () => audio.current.pause();
   }, [state.isPlaying, srcAudio]);
 
   return (
@@ -95,6 +97,7 @@ const PlayerControl = () => {
           <BsRepeat className={cx("repeat_song")} />
         </div>
         <div className={cx("range")}>
+          <span></span>
           <input
             type="range"
             id={cx("timeSlider")}
@@ -103,6 +106,7 @@ const PlayerControl = () => {
             step="1"
             value="0"
             readOnly
+            ref={timeSlider}
           />
         </div>
       </div>

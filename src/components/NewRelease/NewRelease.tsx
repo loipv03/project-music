@@ -23,8 +23,12 @@ const NewRelease = () => {
   const vietNamSong = newRelease?.items?.vPop;
   const QuocTeSong = newRelease?.items?.others;
 
-  const handleClick = (encodeId: string) => {
-    AppDispatch(getDetailSong(encodeId));
+  const handleClick = (item: any) => {
+    if (item.allowAudioAds == true) {
+      AppDispatch(getDetailSong(item.encodeId));
+    } else {
+      window.alert("Nhạc vip chưa thể nghe");
+    }
   };
 
   useEffect(() => {
@@ -70,7 +74,7 @@ const NewRelease = () => {
                 className={(nav) => cx({ active: nav.isActive })}>
                 <div
                   className={cx("item_song")}
-                  onClick={() => handleClick(item.encodeId)}>
+                  onClick={() => handleClick(item)}>
                   <div className={cx("img_song")}>
                     <img src={item?.thumbnail} alt="" />
                   </div>
