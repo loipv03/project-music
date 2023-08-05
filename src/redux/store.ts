@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     audio: audioSlice,
     control: controlSlice,
-    playlist: playListSlice,
+    playList: playListSlice,
   },
 });
 

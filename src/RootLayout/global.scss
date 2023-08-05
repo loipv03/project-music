@@ -18,8 +18,12 @@ body {
 
 .container {
   margin: 0 60px 0 300px;
-  padding: 100px 0 100px 0;
+  padding-top: 100px;
   max-width: 100%;
+
+  .main {
+    margin-bottom: 100px;
+  }
 }
 
 button,

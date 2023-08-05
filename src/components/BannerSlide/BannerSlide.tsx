@@ -1,5 +1,3 @@
-import { MdNavigateBefore } from "react-icons/md";
-import { MdNavigateNext } from "react-icons/md";
 import { getDetailSong, setIsPlaying } from "../../redux/slice/playerControl";
 import { AppDispatch } from "../../redux/store";
 import classNames from "classnames/bind";
@@ -8,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./banner.module.scss";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { getDetaiPlayList } from "../../redux/slice/playlist";
 
 const cx = classNames.bind(styles);
 
@@ -36,19 +36,30 @@ const BannerSlide = () => {
   };
 
   useEffect(() => {
-    btnNext.current?.addEventListener("click", () => {
+    let nextSlider = () => {
       const firstChild = slider.current?.firstChild;
       if (firstChild) {
         slider.current?.appendChild(firstChild);
       }
-    });
+    };
+
     btnPre.current?.addEventListener("click", () => {
       const lastChild = slider.current?.lastChild;
       if (lastChild) {
         slider.current?.insertBefore(lastChild, slider.current.firstChild);
       }
     });
+
+    btnNext.current?.addEventListener("click", () => {
+      nextSlider();
+    });
+
+    let interval = setInterval(() => {
+      nextSlider();
+    }, 4000);
+
     return () => {
+      clearInterval(interval);
       btnNext.current?.addEventListener("click", () => {});
       btnPre.current?.addEventListener("click", () => {});
     };
@@ -57,25 +68,23 @@ const BannerSlide = () => {
   return (
     <div className={cx("banner")}>
       <div className={cx("slide_img")} ref={slider}>
-        {bannerState?.items?.map((item: any, index: number) => {
-          if (index <= 2) {
-            return (
-              <div className={cx("item")} key={item.encodeId}>
-                <img
-                  src={item.banner}
-                  alt="#"
-                  onClick={() => handleClick(item)}
-                />
-              </div>
-            );
-          }
+        {bannerState?.items?.map((item: any) => {
+          return (
+            <div className={cx("item")} key={item.encodeId}>
+              <img
+                src={item.banner}
+                alt="#"
+                onClick={() => handleClick(item)}
+              />
+            </div>
+          );
         })}
       </div>
       <div className={cx("btn_next")} ref={btnNext}>
-        <MdNavigateNext />
+        <BsChevronRight />
       </div>
       <div className={cx("btn_pre")} ref={btnPre}>
-        <MdNavigateBefore />
+        <BsChevronLeft />
       </div>
     </div>
   );

@@ -3,12 +3,12 @@ import NewRelease from "../../components/NewRelease/NewRelease";
 
 const Home = () => {
   return (
-    <main className="main">
+    <>
       <BannerSlide />
-      <div className="content">
+      <div>
         <NewRelease />
       </div>
-    </main>
+    </>
   );
 };
 

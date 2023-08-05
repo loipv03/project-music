@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import styles from "./newRelease.module.scss";
 import { AppDispatch } from "../../redux/store";
 import { getDetailSong, setIsPlaying } from "../../redux/slice/playerControl";
+import moment from "moment";
 
 const cx = classNames.bind(styles);
 
@@ -70,11 +71,13 @@ const NewRelease = () => {
               <NavLink
                 key={item.encodeId}
                 to={item?.link.split(".")[0]}
-                onClick={() => dispatch(setIsPlaying(true))}
                 className={(nav) => cx({ active: nav.isActive })}>
                 <div
                   className={cx("item_song")}
-                  onClick={() => handleClick(item)}>
+                  onClick={() => {
+                    handleClick(item);
+                    dispatch(setIsPlaying(true));
+                  }}>
                   <div className={cx("img_song")}>
                     <img src={item?.thumbnail} alt="" />
                   </div>
@@ -83,7 +86,9 @@ const NewRelease = () => {
                     <div className={cx("artists_names")}>
                       {item.artistsNames}
                     </div>
-                    <div className={cx("day")}>Hôm nay</div>
+                    <div className={cx("day")}>
+                      {moment.unix(item.releaseDate).format("DD-MM-YYYY")}
+                    </div>
                   </div>
                 </div>
               </NavLink>
