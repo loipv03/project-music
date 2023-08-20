@@ -12,3 +12,6 @@ export const getSong = (id: string) => {
 export const getPlayList = (id: string) => {
   return instance.get(`/detailplaylist?id=${id}`);
 };
+export const getTop100 = () => {
+  return instance.get(`top100`);
+};

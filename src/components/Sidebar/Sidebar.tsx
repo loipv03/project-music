@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   Chart,
   Circle,
@@ -33,16 +33,22 @@ const Sidebar = () => {
               <div className={cx("text")}>khám phá</div>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={"1"} className={(nav) => cx({ active: nav.isActive })}>
+          <li style={{ cursor: "not-allowed" }}>
+            <NavLink
+              to={"1"}
+              style={{ pointerEvents: "none", cursor: "not-allowed" }}
+              className={(nav) => cx({ active: nav.isActive })}>
               <div className={cx("icon")}>
                 <Chart />
               </div>
               <div className={cx("text")}>zingchart</div>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={"2"} className={(nav) => cx({ active: nav.isActive })}>
+          <li style={{ cursor: "not-allowed" }}>
+            <NavLink
+              to={"2"}
+              style={{ pointerEvents: "none", cursor: "not-allowed" }}
+              className={(nav) => cx({ active: nav.isActive })}>
               <div className={cx("icon")}>
                 <Radio />
               </div>
@@ -51,8 +57,11 @@ const Sidebar = () => {
               </div>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={"3"} className={(nav) => cx({ active: nav.isActive })}>
+          <li style={{ cursor: "not-allowed" }}>
+            <NavLink
+              to={"3"}
+              style={{ pointerEvents: "none", cursor: "not-allowed" }}
+              className={(nav) => cx({ active: nav.isActive })}>
               <div className={cx("icon")}>
                 <Library />
               </div>
@@ -62,16 +71,22 @@ const Sidebar = () => {
         </ul>
         <div className={cx("divide")}></div>
         <ul className={cx("nav_item")}>
-          <li>
-            <NavLink to={"4"} className={(nav) => cx({ active: nav.isActive })}>
+          <li style={{ cursor: "not-allowed" }}>
+            <NavLink
+              to={"4"}
+              style={{ pointerEvents: "none", cursor: "not-allowed" }}
+              className={(nav) => cx({ active: nav.isActive })}>
               <div className={cx("icon")}>
                 <MusicNote />
               </div>
               <div className={cx("text")}>BXH nhạc mới</div>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={"5"} className={(nav) => cx({ active: nav.isActive })}>
+          <li style={{ cursor: "not-allowed" }}>
+            <NavLink
+              to={"5"}
+              style={{ pointerEvents: "none", cursor: "not-allowed" }}
+              className={(nav) => cx({ active: nav.isActive })}>
               <div className={cx("icon")}>
                 <TopPic />
               </div>
@@ -79,7 +94,9 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to={"6"} className={(nav) => cx({ active: nav.isActive })}>
+            <NavLink
+              to={"top100"}
+              className={(nav) => cx({ active: nav.isActive })}>
               <div className={cx("icon")}>
                 <Star />
               </div>

@@ -35,8 +35,8 @@ const PlayerControl = () => {
       const {
         data: { data },
       } = await getSong(state.curSongId);
-      dispatch(setAudio(data["128"]));
-      setSrcAudio(data["128"]);
+      dispatch(setAudio(data?.["128"]));
+      setSrcAudio(data?.["128"]);
       AppDispatch(getDetailSong(state.curSongId));
     };
     playMusic();

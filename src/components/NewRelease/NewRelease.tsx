@@ -1,22 +1,27 @@
 import classNames from "classnames/bind";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import styles from "./newRelease.module.scss";
 import { AppDispatch } from "../../redux/store";
 import { getDetailSong, setIsPlaying } from "../../redux/slice/playerControl";
 import moment from "moment";
+import Notification from "../Notification/Notification";
+import { setOpacity } from "../../redux/slice/notification";
 
 const cx = classNames.bind(styles);
 
 const NewRelease = () => {
   const [filterSong, setFilterSong] = useState<any>();
-  const state = useSelector(({ audio }: any) => audio.audio.data?.items);
+  const stateAudio = useSelector(({ audio }: any) => audio.audio.data?.items);
   const AppDispatch: AppDispatch = useDispatch();
   const dispatch = useDispatch();
+  const stateNotification = useSelector(
+    ({ notification }) => notification.opacity
+  );
 
-  const newRelease = state?.find(
+  const newRelease = stateAudio?.find(
     (item: any) => item.sectionType === "new-release"
   );
 
@@ -25,22 +30,33 @@ const NewRelease = () => {
   const QuocTeSong = newRelease?.items?.others;
 
   const handleClick = (item: any) => {
-    if (item.allowAudioAds == true) {
+    if (item.allowAudioAds) {
       AppDispatch(getDetailSong(item.encodeId));
     } else {
-      window.alert("Nhạc vip chưa thể nghe");
+      dispatch(setOpacity("1"));
     }
   };
 
   useEffect(() => {
+    let notification_Timeout: number;
+    if (stateNotification === "1") {
+      notification_Timeout = setTimeout(() => dispatch(setOpacity("0")), 3000);
+    }
+    return () => clearTimeout(notification_Timeout);
+  }, [stateNotification]);
+
+  useEffect(() => {
     setFilterSong(allSong);
-  }, [state]);
+  }, [stateAudio]);
 
   return (
     <div className={cx("new_release")}>
       <div className={cx("title")}>{newRelease?.title}</div>
       <div className={cx("filter")}>
-        <NavLink to="/" end className={(nav) => cx({ active: nav.isActive })}>
+        <NavLink
+          to="/all"
+          end
+          className={(nav) => cx({ active: nav.isActive })}>
           <div
             className={cx("filter_item")}
             onClick={() => setFilterSong(allSong)}>
@@ -76,7 +92,7 @@ const NewRelease = () => {
                   className={cx("item_song")}
                   onClick={() => {
                     handleClick(item);
-                    dispatch(setIsPlaying(true));
+                    item?.allowAudioAds && dispatch(setIsPlaying(true));
                   }}>
                   <div className={cx("img_song")}>
                     <img src={item?.thumbnail} alt="" />
@@ -96,6 +112,7 @@ const NewRelease = () => {
           }
         })}
       </div>
+      <Notification active={stateNotification} text="Nhạc vip chưa thể nghe" />
     </div>
   );
 };

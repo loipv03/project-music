@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import { getDetaiPlayList } from "../../redux/slice/playlist";
 import moment from "moment";
 import { getDetailSong, setIsPlaying } from "../../redux/slice/playerControl";
+import Notification from "../Notification/Notification";
+import { setOpacity } from "../../redux/slice/notification";
 
 const cx = classNames.bind(styles);
 
@@ -16,18 +18,28 @@ const PlayList = () => {
   const Appdispatch = useDispatch<AppDispatch>();
   const dispatch = useDispatch();
   const playList = useSelector(({ playList }: any) => playList.playList);
-  console.log(playList);
+  const stateNotification = useSelector(
+    ({ notification }) => notification.opacity
+  );
   const { id } = useParams();
 
   useEffect(() => {
     Appdispatch(getDetaiPlayList(id!));
   }, []);
 
+  useEffect(() => {
+    let notification_Timeout: number;
+    if (stateNotification === "1") {
+      notification_Timeout = setTimeout(() => dispatch(setOpacity("0")), 3000);
+    }
+    return () => clearTimeout(notification_Timeout);
+  }, [stateNotification]);
+
   const handleClick = (item: any) => {
-    if (item.allowAudioAds == true) {
+    if (item.allowAudioAds) {
       Appdispatch(getDetailSong(item.encodeId));
     } else {
-      window.alert("Nhạc vip chưa thể nghe");
+      dispatch(setOpacity("1"));
     }
   };
 
@@ -60,19 +72,22 @@ const PlayList = () => {
         {playList?.song?.items.map((item: any) => (
           <NavLink
             to={""}
+            key={item.encodeId}
             className={(nav) => cx({ active: nav.isActive })}
             onClick={() => {
               handleClick(item);
               item.allowAudioAds && dispatch(setIsPlaying(true));
             }}>
-            <div className={cx("song_content")} key={item.encodeId}>
+            <div className={cx("song_content")}>
               <div className={cx("song_item_left")}>
                 <div className={cx("music_note")}>
                   <CiMusicNote1 />
                 </div>
                 <img src={item.thumbnail} alt="" />
                 <div className={cx("desc")}>
-                  <div className={cx("name_song")}>{item?.title}</div>
+                  <div title={item?.title} className={cx("name_song")}>
+                    {item?.title}
+                  </div>
                   <div className={cx("artists")}>{item?.artistsNames}</div>
                 </div>
               </div>
@@ -84,6 +99,7 @@ const PlayList = () => {
           </NavLink>
         ))}
       </div>
+      <Notification active={stateNotification} text="Nhạc vip chưa thể nghe" />
     </div>
   );
 };

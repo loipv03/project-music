@@ -7,7 +7,6 @@ import styles from "./banner.module.scss";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import { getDetaiPlayList } from "../../redux/slice/playlist";
 
 const cx = classNames.bind(styles);
 
@@ -54,12 +53,7 @@ const BannerSlide = () => {
       nextSlider();
     });
 
-    let interval = setInterval(() => {
-      nextSlider();
-    }, 4000);
-
     return () => {
-      clearInterval(interval);
       btnNext.current?.addEventListener("click", () => {});
       btnPre.current?.addEventListener("click", () => {});
     };

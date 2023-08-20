@@ -138,7 +138,7 @@
 
         .desc {
           max-width: 300px;
-          width: max-content;
+          min-width: 200px;
           .name_song {
             font-size: 1.4rem;
             color: #8b8791;

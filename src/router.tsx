@@ -13,6 +13,7 @@ const router = createBrowserRouter([
       { path: "bai-hat/:title/:id", element: <Home /> },
       { path: ":type/:title/:id", element: <PlayList /> },
       { path: ":filter", element: <Home /> },
+      { path: "top100" },
     ],
   },
   { path: "/*", element: <PageNotFound /> },

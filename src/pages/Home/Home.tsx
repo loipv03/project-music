@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <>
       <BannerSlide />
-      <div>
+      <div style={{ marginBottom: "100px" }}>
         <NewRelease />
       </div>
     </>
