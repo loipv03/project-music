@@ -5,6 +5,7 @@ import PageNotFound from "./components/PageNotFound/PageNotFound";
 import PlayList from "./components/PlayList/PlayList";
 import Top100 from "./components/Top100/Top100";
 import NewReleaseChart from "./components/NewReleaseChart/NewReleaseChart";
+import Search from "./components/Search/Search";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: ":filter", element: <Home /> },
       { path: "top100", element: <Top100 /> },
       { path: "newreleasechart", element: <NewReleaseChart /> },
+      { path: "search/:filter/:params", element: <Search /> },
     ],
   },
   { path: "/*", element: <PageNotFound /> },

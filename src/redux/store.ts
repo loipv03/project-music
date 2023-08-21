@@ -5,6 +5,7 @@ import playListSlice from "./slice/playlist";
 import notification from "./slice/notification";
 import top100Slide from "./slice/top100";
 import newReleaseChartSlice from "./slice/newReleaseChart";
+import searchSlide from "./slice/search";
 
 import {
   FLUSH,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   notification: notification,
   top100: top100Slide,
   newReleaseChart: newReleaseChartSlice,
+  search: searchSlide,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -28,7 +28,7 @@ const BannerSlide = () => {
     if (item.type === 1 && item.encodeId !== stateControl.curSongId) {
       AppDispatch(getDetailSong(item.encodeId));
       dispatch(setIsPlaying(true));
-    } else if (item.type === 4) {
+    } else {
       const link = item?.link.split(".")[0];
       navigate(link);
     }
