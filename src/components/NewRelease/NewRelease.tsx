@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import styles from "./newRelease.module.scss";
@@ -30,7 +30,7 @@ const NewRelease = () => {
   const QuocTeSong = newRelease?.items?.others;
 
   const handleClick = (item: any) => {
-    if (item.allowAudioAds) {
+    if (item.allowAudioAds && item.isWorldWide) {
       AppDispatch(getDetailSong(item.encodeId));
     } else {
       dispatch(setOpacity("1"));
@@ -92,7 +92,9 @@ const NewRelease = () => {
                   className={cx("item_song")}
                   onClick={() => {
                     handleClick(item);
-                    item?.allowAudioAds && dispatch(setIsPlaying(true));
+                    item?.allowAudioAds &&
+                      item.isWorldWide &&
+                      dispatch(setIsPlaying(true));
                   }}>
                   <div className={cx("img_song")}>
                     <img src={item?.thumbnail} alt="" />
@@ -112,7 +114,7 @@ const NewRelease = () => {
           }
         })}
       </div>
-      <Notification active={stateNotification} text="Nhạc vip chưa thể nghe" />
+      <Notification active={stateNotification} text="Xin lỗi không thể phát" />
     </div>
   );
 };

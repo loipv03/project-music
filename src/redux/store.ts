@@ -3,6 +3,8 @@ import audioSlice from "./slice/audio";
 import controlSlice from "./slice/playerControl";
 import playListSlice from "./slice/playlist";
 import notification from "./slice/notification";
+import top100Slide from "./slice/top100";
+import newReleaseChartSlice from "./slice/newReleaseChart";
 
 import {
   FLUSH,
@@ -27,6 +29,8 @@ const rootReducer = combineReducers({
   control: controlSlice,
   playList: playListSlice,
   notification: notification,
+  top100: top100Slide,
+  newReleaseChart: newReleaseChartSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

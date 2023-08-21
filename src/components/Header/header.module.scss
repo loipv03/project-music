@@ -5,7 +5,7 @@
 .header {
   height: 70px;
   position: fixed;
-  z-index: 3;
+  z-index: 10;
   margin: 0 60px 0 300px;
   inset-inline: 0;
   inset-block-start: 0;
@@ -14,6 +14,7 @@
   align-items: center;
   justify-items: end;
   background-color: #170f23fe;
+  border-bottom: 1px solid #00000031;
 
   .header_left {
     width: 100%;

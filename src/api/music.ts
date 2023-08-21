@@ -15,3 +15,6 @@ export const getPlayList = (id: string) => {
 export const getTop100 = () => {
   return instance.get(`top100`);
 };
+export const getNewReleaseChart = () => {
+  return instance.get(`newreleasechart`);
+};

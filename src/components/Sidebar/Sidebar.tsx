@@ -71,10 +71,9 @@ const Sidebar = () => {
         </ul>
         <div className={cx("divide")}></div>
         <ul className={cx("nav_item")}>
-          <li style={{ cursor: "not-allowed" }}>
+          <li>
             <NavLink
-              to={"4"}
-              style={{ pointerEvents: "none", cursor: "not-allowed" }}
+              to={"newreleasechart"}
               className={(nav) => cx({ active: nav.isActive })}>
               <div className={cx("icon")}>
                 <MusicNote />

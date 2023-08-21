@@ -15,7 +15,7 @@ import { setOpacity } from "../../redux/slice/notification";
 const cx = classNames.bind(styles);
 
 const PlayList = () => {
-  const Appdispatch = useDispatch<AppDispatch>();
+  const AppDispatch = useDispatch<AppDispatch>();
   const dispatch = useDispatch();
   const playList = useSelector(({ playList }: any) => playList.playList);
   const stateNotification = useSelector(
@@ -24,8 +24,8 @@ const PlayList = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    Appdispatch(getDetaiPlayList(id!));
-  }, []);
+    AppDispatch(getDetaiPlayList(id!));
+  }, [id]);
 
   useEffect(() => {
     let notification_Timeout: number;
@@ -36,8 +36,8 @@ const PlayList = () => {
   }, [stateNotification]);
 
   const handleClick = (item: any) => {
-    if (item.allowAudioAds) {
-      Appdispatch(getDetailSong(item.encodeId));
+    if (item.allowAudioAds && item.isWorldWide) {
+      AppDispatch(getDetailSong(item.encodeId));
     } else {
       dispatch(setOpacity("1"));
     }
@@ -58,7 +58,11 @@ const PlayList = () => {
         <div className={cx("like")}>
           {Math.floor(playList?.like / 1000)}K người yêu thích
         </div>
-        <button className={cx("play")}>Tiếp Tục phát</button>
+        <button
+          className={cx("play")}
+          onClick={() => dispatch(setIsPlaying(true))}>
+          Tiếp Tục phát
+        </button>
       </div>
       <div className={cx("playlist_content")}>
         <div className={cx("sort_desc")}>
@@ -76,7 +80,9 @@ const PlayList = () => {
             className={(nav) => cx({ active: nav.isActive })}
             onClick={() => {
               handleClick(item);
-              item.allowAudioAds && dispatch(setIsPlaying(true));
+              item?.allowAudioAds &&
+                item?.isWorldWide &&
+                dispatch(setIsPlaying(true));
             }}>
             <div className={cx("song_content")}>
               <div className={cx("song_item_left")}>

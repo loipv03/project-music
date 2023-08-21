@@ -21,7 +21,7 @@ export const getDetailSong = createAsyncThunk(
 );
 
 const controlSlice = createSlice({
-  name: "playercontrol",
+  name: "audio",
   initialState,
   reducers: {
     setIsPlaying: (state, action: PayloadAction<boolean>) => {

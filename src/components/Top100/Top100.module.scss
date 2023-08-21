@@ -1,0 +1,62 @@
+.top100 {
+  margin-bottom: 100px;
+}
+
+.banner {
+  margin: -10px 0 20px;
+  display: grid;
+  place-items: center;
+}
+
+.content {
+  width: 100%;
+
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .content_wrap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0 30px;
+    margin-bottom: 48px;
+
+    .content_item {
+      width: 100%;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        border-radius: 5px;
+        transition: transform 0.7s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+
+      .title_item {
+        font-size: 14px;
+        font-weight: 700;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin: 15px 0 5px;
+      }
+
+      .artistsNames {
+        font-size: 14px;
+        font-weight: 400;
+        color: #ffffff80;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

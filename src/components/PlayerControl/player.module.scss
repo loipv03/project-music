@@ -32,6 +32,7 @@
       width: 200px;
       font-size: 1.4rem;
       line-height: 20px;
+      user-select: none;
     }
 
     .alias {
@@ -83,20 +84,27 @@
     .next_song {
       width: 40px;
       height: 40px;
+      cursor: not-allowed;
+      fill: #6b6b6b;
     }
     .skip_song {
       width: 40px;
       height: 40px;
+      cursor: not-allowed;
+      fill: #6b6b6b;
     }
     .repeat_song {
       width: 23px;
       height: 23px;
-      fill: #858189;
+      cursor: not-allowed;
+      fill: #6b6b6b;
     }
 
     .random_song {
       width: 22px;
       height: 22px;
+      cursor: not-allowed;
+      fill: #6b6b6b;
     }
   }
 

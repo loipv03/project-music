@@ -3,6 +3,8 @@ import RootLayout from "./RootLayout/RootLayout";
 import Home from "./pages/Home/Home";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
 import PlayList from "./components/PlayList/PlayList";
+import Top100 from "./components/Top100/Top100";
+import NewReleaseChart from "./components/NewReleaseChart/NewReleaseChart";
 
 const router = createBrowserRouter([
   {
@@ -13,7 +15,8 @@ const router = createBrowserRouter([
       { path: "bai-hat/:title/:id", element: <Home /> },
       { path: ":type/:title/:id", element: <PlayList /> },
       { path: ":filter", element: <Home /> },
-      { path: "top100" },
+      { path: "top100", element: <Top100 /> },
+      { path: "newreleasechart", element: <NewReleaseChart /> },
     ],
   },
   { path: "/*", element: <PageNotFound /> },

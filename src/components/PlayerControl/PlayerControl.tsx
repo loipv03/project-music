@@ -17,6 +17,8 @@ import styles from "./player.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { getSong } from "../../api/music";
 import moment from "moment";
+import Notification from "../Notification/Notification";
+import { setOpacity } from "../../redux/slice/notification";
 
 const cx = classNames.bind(styles);
 
@@ -27,6 +29,9 @@ const PlayerControl = () => {
   const [srcAudio, setSrcAudio] = useState<string>("");
   const timeSlider = useRef<HTMLInputElement>(null);
   const [curSeconds, setCurSeconds] = useState<any>(0);
+  const stateNotification = useSelector(
+    ({ notification }) => notification.opacity
+  );
 
   const audio: React.MutableRefObject<HTMLAudioElement> = useRef(new Audio());
 
@@ -35,9 +40,13 @@ const PlayerControl = () => {
       const {
         data: { data },
       } = await getSong(state.curSongId);
-      dispatch(setAudio(data?.["128"]));
-      setSrcAudio(data?.["128"]);
-      AppDispatch(getDetailSong(state.curSongId));
+      if (data) {
+        dispatch(setAudio(data?.["128"]));
+        setSrcAudio(data?.["128"]);
+        AppDispatch(getDetailSong(state.curSongId));
+      } else {
+        dispatch(setOpacity("1"));
+      }
     };
     playMusic();
   }, [state.curSongId]);
@@ -82,12 +91,16 @@ const PlayerControl = () => {
     };
   }, [state.isPlaying, srcAudio]);
 
+  const handleNext = () => {};
+
   return (
     <div className={cx("control")}>
       <div className={cx("control_left")}>
         <img src={state?.infoSong?.thumbnail} />
         <div className={cx("info_song")}>
-          <div className={cx("name_song")}>{state?.infoSong?.title}</div>
+          <div title={state?.infoSong?.title} className={cx("name_song")}>
+            {state?.infoSong?.title}
+          </div>
           <div className={cx("alias")}>{state?.infoSong?.artistsNames}</div>
         </div>
       </div>
@@ -100,7 +113,10 @@ const PlayerControl = () => {
             onClick={() => handleClickIsplaying(state.isPlaying)}>
             {state.isPlaying ? <BsPauseCircle /> : <BsPlayCircle />}
           </div>
-          <BiSkipNext className={cx("next_song")} />
+          <BiSkipNext
+            className={cx("next_song")}
+            onClick={() => handleNext()}
+          />
           <BsRepeat className={cx("repeat_song")} />
         </div>
         <div className={cx("range")}>
@@ -123,6 +139,7 @@ const PlayerControl = () => {
         </div>
       </div>
       <div className={cx("control_right")}></div>
+      <Notification active={stateNotification} text="Xin lỗi không thể phát" />
     </div>
   );
 };
