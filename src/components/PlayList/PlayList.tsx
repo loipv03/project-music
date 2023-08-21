@@ -38,6 +38,7 @@ const PlayList = () => {
   const handleClick = (item: any) => {
     if (item.allowAudioAds && item.isWorldWide) {
       AppDispatch(getDetailSong(item.encodeId));
+      dispatch(setIsPlaying(true));
     } else {
       dispatch(setOpacity("1"));
     }
@@ -80,9 +81,6 @@ const PlayList = () => {
             className={(nav) => cx({ active: nav.isActive })}
             onClick={() => {
               handleClick(item);
-              item?.allowAudioAds &&
-                item?.isWorldWide &&
-                dispatch(setIsPlaying(true));
             }}>
             <div className={cx("song_content")}>
               <div className={cx("song_item_left")}>
@@ -105,7 +103,7 @@ const PlayList = () => {
           </NavLink>
         ))}
       </div>
-      <Notification active={stateNotification} text="Nhạc vip chưa thể nghe" />
+      <Notification active={stateNotification} text="Xin lỗi không thể phát" />
     </div>
   );
 };

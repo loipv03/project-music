@@ -17,7 +17,6 @@ import styles from "./player.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { getSong } from "../../api/music";
 import moment from "moment";
-import Notification from "../Notification/Notification";
 import { setOpacity } from "../../redux/slice/notification";
 
 const cx = classNames.bind(styles);
@@ -29,9 +28,6 @@ const PlayerControl = () => {
   const [srcAudio, setSrcAudio] = useState<string>("");
   const timeSlider = useRef<HTMLInputElement>(null);
   const [curSeconds, setCurSeconds] = useState<any>(0);
-  const stateNotification = useSelector(
-    ({ notification }) => notification.opacity
-  );
 
   const audio: React.MutableRefObject<HTMLAudioElement> = useRef(new Audio());
 
@@ -139,7 +135,6 @@ const PlayerControl = () => {
         </div>
       </div>
       <div className={cx("control_right")}></div>
-      <Notification active={stateNotification} text="Xin lỗi không thể phát" />
     </div>
   );
 };
