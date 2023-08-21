@@ -2,12 +2,9 @@ import { BiSearch } from "react-icons/bi";
 import { AiOutlineSetting } from "react-icons/ai";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
-import { AppDispatch } from "../../redux/store";
 
 import styles from "./header.module.scss";
-import { useDispatch } from "react-redux";
-import { search } from "../../redux/slice/search";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
