@@ -6,7 +6,7 @@ const initialState = {
 };
 
 export const getDetaiPlayList = createAsyncThunk(
-  "audio/getDetailPlayLisst",
+  "audio/getDetailPlayList",
   async (encodeId: string) => {
     try {
       const { data } = await getPlayList(encodeId);

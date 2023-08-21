@@ -9,7 +9,9 @@ const RootLayout = () => {
     <div className="container">
       <Sidebar />
       <Header />
-      <Outlet />
+      <main className="main">
+        <Outlet />
+      </main>
       <PlayerControl />
     </div>
   );

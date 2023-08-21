@@ -6,16 +6,22 @@ import { useState, useEffect } from "react";
 import styles from "./newRelease.module.scss";
 import { AppDispatch } from "../../redux/store";
 import { getDetailSong, setIsPlaying } from "../../redux/slice/playerControl";
+import moment from "moment";
+import Notification from "../Notification/Notification";
+import { setOpacity } from "../../redux/slice/notification";
 
 const cx = classNames.bind(styles);
 
 const NewRelease = () => {
   const [filterSong, setFilterSong] = useState<any>();
-  const state = useSelector(({ audio }: any) => audio.audio.data?.items);
+  const stateAudio = useSelector(({ audio }: any) => audio.audio.data?.items);
   const AppDispatch: AppDispatch = useDispatch();
   const dispatch = useDispatch();
+  const stateNotification = useSelector(
+    ({ notification }) => notification.opacity
+  );
 
-  const newRelease = state?.find(
+  const newRelease = stateAudio?.find(
     (item: any) => item.sectionType === "new-release"
   );
 
@@ -24,22 +30,33 @@ const NewRelease = () => {
   const QuocTeSong = newRelease?.items?.others;
 
   const handleClick = (item: any) => {
-    if (item.allowAudioAds == true) {
+    if (item.allowAudioAds && item.isWorldWide) {
       AppDispatch(getDetailSong(item.encodeId));
     } else {
-      window.alert("Nhạc vip chưa thể nghe");
+      dispatch(setOpacity("1"));
     }
   };
 
   useEffect(() => {
+    let notification_Timeout: number;
+    if (stateNotification === "1") {
+      notification_Timeout = setTimeout(() => dispatch(setOpacity("0")), 3000);
+    }
+    return () => clearTimeout(notification_Timeout);
+  }, [stateNotification]);
+
+  useEffect(() => {
     setFilterSong(allSong);
-  }, [state]);
+  }, [stateAudio]);
 
   return (
     <div className={cx("new_release")}>
       <div className={cx("title")}>{newRelease?.title}</div>
       <div className={cx("filter")}>
-        <NavLink to="/" end className={(nav) => cx({ active: nav.isActive })}>
+        <NavLink
+          to="/all"
+          end
+          className={(nav) => cx({ active: nav.isActive })}>
           <div
             className={cx("filter_item")}
             onClick={() => setFilterSong(allSong)}>
@@ -70,11 +87,15 @@ const NewRelease = () => {
               <NavLink
                 key={item.encodeId}
                 to={item?.link.split(".")[0]}
-                onClick={() => dispatch(setIsPlaying(true))}
                 className={(nav) => cx({ active: nav.isActive })}>
                 <div
                   className={cx("item_song")}
-                  onClick={() => handleClick(item)}>
+                  onClick={() => {
+                    handleClick(item);
+                    item?.allowAudioAds &&
+                      item.isWorldWide &&
+                      dispatch(setIsPlaying(true));
+                  }}>
                   <div className={cx("img_song")}>
                     <img src={item?.thumbnail} alt="" />
                   </div>
@@ -83,7 +104,9 @@ const NewRelease = () => {
                     <div className={cx("artists_names")}>
                       {item.artistsNames}
                     </div>
-                    <div className={cx("day")}>Hôm nay</div>
+                    <div className={cx("day")}>
+                      {moment.unix(item.releaseDate).format("DD-MM-YYYY")}
+                    </div>
                   </div>
                 </div>
               </NavLink>
@@ -91,6 +114,7 @@ const NewRelease = () => {
           }
         })}
       </div>
+      <Notification active={stateNotification} text="Xin lỗi không thể phát" />
     </div>
   );
 };

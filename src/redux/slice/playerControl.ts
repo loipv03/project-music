@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { getInfoSong, getSong } from "../../api/music";
+import { getInfoSong } from "../../api/music";
 
 const initialState = {
-  curSongId: "IWB7UDEE",
+  curSongId: "",
   infoSong: {},
   audio: "",
   isPlaying: false,

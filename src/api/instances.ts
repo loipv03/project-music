@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL: "https://api-zingmp3-hk0s.onrender.com/api/",
 });
 
 export default instance;

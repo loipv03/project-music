@@ -26,8 +26,13 @@
 
   .info_song {
     .name_song {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 200px;
       font-size: 1.4rem;
       line-height: 20px;
+      user-select: none;
     }
 
     .alias {
@@ -59,8 +64,6 @@
       cursor: pointer;
     }
 
-    #play_song {
-    }
     #pause_song {
       width: 40px;
       height: 40px;
@@ -81,33 +84,51 @@
     .next_song {
       width: 40px;
       height: 40px;
+      cursor: not-allowed;
+      fill: #6b6b6b;
     }
     .skip_song {
       width: 40px;
       height: 40px;
+      cursor: not-allowed;
+      fill: #6b6b6b;
     }
     .repeat_song {
       width: 23px;
       height: 23px;
-      fill: #858189;
+      cursor: not-allowed;
+      fill: #6b6b6b;
     }
 
     .random_song {
       width: 22px;
       height: 22px;
+      cursor: not-allowed;
+      fill: #6b6b6b;
     }
   }
 
   .range {
-    width: 100%;
+    width: 80%;
     display: grid;
+    grid-template-columns: 40px 1fr 40px;
     place-items: center;
+    gap: 10px;
+
+    span {
+      width: max-content;
+    }
+
     input[type="range"] {
-      width: 80%;
+      width: 100%;
       height: 3px;
       appearance: none;
       overflow: hidden;
       border-radius: 10px;
+
+      &:hover {
+        height: 7px;
+      }
 
       &::-webkit-slider-runnable-track {
         cursor: pointer;
@@ -129,21 +150,10 @@
       &:hover::-webkit-slider-runnable-track {
         cursor: pointer;
         width: 100%;
-        height: 4px;
+        height: 7px;
         background: #595460;
         appearance: none;
       }
     }
   }
 }
-
-// .song {
-//   width: 20px;
-//   height: 20px;
-//   background-color: #ffffff;
-//   border-radius: 50%;
-//   color: black;
-//   cursor: pointer;
-//   display: grid;
-//   place-items: center;
-// }

@@ -16,6 +16,9 @@ import classNames from "classnames/bind";
 import styles from "./player.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { getSong } from "../../api/music";
+import moment from "moment";
+import Notification from "../Notification/Notification";
+import { setOpacity } from "../../redux/slice/notification";
 
 const cx = classNames.bind(styles);
 
@@ -25,6 +28,10 @@ const PlayerControl = () => {
   const state = useSelector(({ control }: any) => control);
   const [srcAudio, setSrcAudio] = useState<string>("");
   const timeSlider = useRef<HTMLInputElement>(null);
+  const [curSeconds, setCurSeconds] = useState<any>(0);
+  const stateNotification = useSelector(
+    ({ notification }) => notification.opacity
+  );
 
   const audio: React.MutableRefObject<HTMLAudioElement> = useRef(new Audio());
 
@@ -33,9 +40,13 @@ const PlayerControl = () => {
       const {
         data: { data },
       } = await getSong(state.curSongId);
-      dispatch(setAudio(data["128"]));
-      setSrcAudio(data["128"]);
-      AppDispatch(getDetailSong(state.curSongId));
+      if (data) {
+        dispatch(setAudio(data?.["128"]));
+        setSrcAudio(data?.["128"]);
+        AppDispatch(getDetailSong(state.curSongId));
+      } else {
+        dispatch(setOpacity("1"));
+      }
     };
     playMusic();
   }, [state.curSongId]);
@@ -45,18 +56,19 @@ const PlayerControl = () => {
   }, [srcAudio]);
 
   useEffect(() => {
-    timeSlider.current?.addEventListener("input", function () {
-      audio.current.currentTime = Number(this.value);
+    timeSlider.current?.addEventListener("input", () => {
+      audio.current.currentTime = Number(timeSlider.current?.value);
     });
 
-    audio.current.addEventListener("timeupdate", function () {
+    audio.current.addEventListener("timeupdate", () => {
       if (timeSlider) {
         timeSlider.current!.value = String(audio.current.currentTime);
+        setCurSeconds(audio.current.currentTime);
       }
     });
 
     audio.current.addEventListener("ended", function () {
-      timeSlider.current!.value = "0";
+      setCurSeconds(0);
       dispatch(setIsPlaying(false));
     });
   }, [timeSlider]);
@@ -66,21 +78,29 @@ const PlayerControl = () => {
   };
 
   useEffect(() => {
+    let timeoutPlay: number;
     if (state.isPlaying) {
-      audio.current.play();
+      timeoutPlay = setTimeout(() => audio.current.play(), 300);
     } else {
       audio.current.pause();
     }
 
-    return () => audio.current.pause();
+    return () => {
+      audio.current.pause();
+      clearTimeout(timeoutPlay);
+    };
   }, [state.isPlaying, srcAudio]);
+
+  const handleNext = () => {};
 
   return (
     <div className={cx("control")}>
       <div className={cx("control_left")}>
         <img src={state?.infoSong?.thumbnail} />
         <div className={cx("info_song")}>
-          <div className={cx("name_song")}>{state?.infoSong?.title}</div>
+          <div title={state?.infoSong?.title} className={cx("name_song")}>
+            {state?.infoSong?.title}
+          </div>
           <div className={cx("alias")}>{state?.infoSong?.artistsNames}</div>
         </div>
       </div>
@@ -93,24 +113,33 @@ const PlayerControl = () => {
             onClick={() => handleClickIsplaying(state.isPlaying)}>
             {state.isPlaying ? <BsPauseCircle /> : <BsPlayCircle />}
           </div>
-          <BiSkipNext className={cx("next_song")} />
+          <BiSkipNext
+            className={cx("next_song")}
+            onClick={() => handleNext()}
+          />
           <BsRepeat className={cx("repeat_song")} />
         </div>
         <div className={cx("range")}>
-          <span></span>
+          <span className={cx("seconds_start")}>
+            {moment.utc(curSeconds * 1000).format("mm:ss")}
+          </span>
           <input
             type="range"
             id={cx("timeSlider")}
             min="0"
             max={state?.infoSong?.duration}
             step="1"
-            value="0"
+            value={curSeconds}
             readOnly
             ref={timeSlider}
           />
+          <span className={cx("seconds_end")}>
+            {moment.utc(state?.infoSong?.duration * 1000).format("mm:ss")}
+          </span>
         </div>
       </div>
       <div className={cx("control_right")}></div>
+      <Notification active={stateNotification} text="Xin lỗi không thể phát" />
     </div>
   );
 };
