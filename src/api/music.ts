@@ -18,3 +18,6 @@ export const getTop100 = () => {
 export const getNewReleaseChart = () => {
   return instance.get(`newreleasechart`);
 };
+export const apiSearch = (params: any) => {
+  return instance.get(`search?keyword=${params}`);
+};

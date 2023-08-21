@@ -1,0 +1,48 @@
+.playlistSearch {
+  .playlist_title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+  }
+
+  .playlist_content {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 30px;
+
+    a {
+      color: #ffffff;
+
+      .playlist_content_item {
+        width: 100%;
+        font-size: 14px;
+        cursor: pointer;
+
+        img {
+          width: 100%;
+          border-radius: 5px;
+        }
+
+        .content_item_title {
+          font-weight: 700;
+          padding: 12px 0;
+          width: 84%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        .content_item_artists {
+          font-weight: 400;
+          color: #ffffff80;
+          width: 97%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}

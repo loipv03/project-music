@@ -32,18 +32,11 @@ const NewRelease = () => {
   const handleClick = (item: any) => {
     if (item.allowAudioAds && item.isWorldWide) {
       AppDispatch(getDetailSong(item.encodeId));
+      dispatch(setIsPlaying(true));
     } else {
       dispatch(setOpacity("1"));
     }
   };
-
-  useEffect(() => {
-    let notification_Timeout: number;
-    if (stateNotification === "1") {
-      notification_Timeout = setTimeout(() => dispatch(setOpacity("0")), 3000);
-    }
-    return () => clearTimeout(notification_Timeout);
-  }, [stateNotification]);
 
   useEffect(() => {
     setFilterSong(allSong);
@@ -53,10 +46,7 @@ const NewRelease = () => {
     <div className={cx("new_release")}>
       <div className={cx("title")}>{newRelease?.title}</div>
       <div className={cx("filter")}>
-        <NavLink
-          to="/all"
-          end
-          className={(nav) => cx({ active: nav.isActive })}>
+        <NavLink to={"/all"} className={(nav) => cx({ active: nav.isActive })}>
           <div
             className={cx("filter_item")}
             onClick={() => setFilterSong(allSong)}>
@@ -92,9 +82,6 @@ const NewRelease = () => {
                   className={cx("item_song")}
                   onClick={() => {
                     handleClick(item);
-                    item?.allowAudioAds &&
-                      item.isWorldWide &&
-                      dispatch(setIsPlaying(true));
                   }}>
                   <div className={cx("img_song")}>
                     <img src={item?.thumbnail} alt="" />
