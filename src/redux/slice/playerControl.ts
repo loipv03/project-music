@@ -12,8 +12,8 @@ export const getDetailSong = createAsyncThunk(
   "audio/getDetailSong",
   async (encodeId: string) => {
     try {
-      const { data: infoSong } = await getInfoSong(encodeId);
-      return infoSong.err === 0 ? infoSong : null;
+      const { data } = await getInfoSong(encodeId);
+      return data;
     } catch (error) {
       throw error;
     }
@@ -34,7 +34,7 @@ const controlSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getDetailSong.fulfilled, (state, action: any) => {
       if (action.payload) {
-        state.curSongId = action.payload?.data.encodeId;
+        // state.curSongId = action.payload?.data.encodeId;
         state.infoSong = action.payload?.data;
       }
     });

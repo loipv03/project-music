@@ -4,12 +4,7 @@ import { BsPauseCircle } from "react-icons/bs";
 import { BiSkipPrevious } from "react-icons/bi";
 import { BiSkipNext } from "react-icons/bi";
 import { BsPlayCircle } from "react-icons/bs";
-import {
-  getDetailSong,
-  setAudio,
-  setIsPlaying,
-} from "../../redux/slice/playerControl";
-import { AppDispatch } from "../../redux/store";
+import { setAudio, setIsPlaying } from "../../redux/slice/playerControl";
 import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames/bind";
 
@@ -23,7 +18,6 @@ const cx = classNames.bind(styles);
 
 const PlayerControl = () => {
   const dispatch = useDispatch();
-  const AppDispatch = useDispatch() as AppDispatch;
   const state = useSelector(({ control }: any) => control);
   const [srcAudio, setSrcAudio] = useState<string>("");
   const timeSlider = useRef<HTMLInputElement>(null);
@@ -35,17 +29,16 @@ const PlayerControl = () => {
     const playMusic = async () => {
       const {
         data: { data },
-      } = await getSong(state.curSongId);
+      } = await getSong(state.infoSong.encodeId);
       if (data) {
         dispatch(setAudio(data?.["128"]));
         setSrcAudio(data?.["128"]);
-        AppDispatch(getDetailSong(state.curSongId));
       } else {
         dispatch(setOpacity("1"));
       }
     };
     playMusic();
-  }, [state.curSongId]);
+  }, [state.infoSong]);
 
   useEffect(() => {
     audio.current.src = srcAudio;
